@@ -1,6 +1,7 @@
 
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
+#include <shellapi.h>
 #undef min
 #undef max
 
@@ -149,7 +150,7 @@ std::ostream& operator<<(std::ostream& ostr, Rectangle_t const& rect) {
     return ostr;
 }
 
-int main(int argc, char** argv) {
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow) {
     auto monitors = getMonitors();
 
     Rectangle_t infinityRect { INT_MIN, INT_MIN, INT_MAX, INT_MAX };
@@ -205,6 +206,9 @@ int main(int argc, char** argv) {
             return a.windowRect.left < b.windowRect.left;
         });
 
+    LPWSTR commandLine = GetCommandLineW();
+    int argc = -1;
+    LPWSTR* argv = CommandLineToArgvW(commandLine, &argc);
 
     int windowIndex = -1;
     if (argc == 2) {

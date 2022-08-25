@@ -14,6 +14,7 @@
 #include <format>
 
 #include "rectangle.h"
+#include "config.h"
 
 #define MIN_WINDOW_SIZE 200
 #define MIN_VISIBLE_AREA 100000
@@ -206,18 +207,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
             return a.windowRect.left < b.windowRect.left;
         });
 
-    LPWSTR commandLine = GetCommandLineW();
-    int argc = -1;
-    LPWSTR* argv = CommandLineToArgvW(commandLine, &argc);
-
-    int windowIndex = -1;
-    if (argc == 2) {
-        try {
-            windowIndex = std::stoi(argv[1]);
-        } catch (std::exception const& e) {
-            //
-        }
-    }
+    auto config = parseCommandLine();
+    auto vpConfig = config.visualProminenceConfig;
+    int windowIndex = vpConfig.windowIndex;
 
     if (windowIndex >= 0 && windowIndex < candidateWindows.size()) {
         auto const& window = candidateWindows[windowIndex];

@@ -4,6 +4,6 @@ LINK=/link User32.lib Shell32.lib
 
 all: winfocus.exe
 
-winfocus.exe: winfocus.cpp rectangle.h
-	$(BUILD) /Fe: winfocus.exe winfocus.cpp $(LINK)
+winfocus.exe: winfocus.cpp rectangle.h config.cpp config.h
+	$(BUILD) /Fe: winfocus.exe winfocus.cpp config.cpp $(LINK)
 
